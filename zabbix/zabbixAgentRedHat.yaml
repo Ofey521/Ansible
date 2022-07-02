@@ -1,0 +1,38 @@
+  - name: -----Zabbix RedHat----- 
+    block:
+      - name: instalacja pakietu z repo
+        yum:
+          name: https://repo.zabbix.com/zabbix/6.1/rhel/{{ ansible_distribution_major_version }}/x86_64/zabbix-agent-6.2.0-0.5beta3.el{{ ansible_distribution_major_version }}.x86_64.rpm
+          state: present
+          disable_gpg_check: yes
+          validate_certs: no
+
+      - name: Pobranie konfiguracji .j2
+        template:
+          src: zabbix.j2
+          dest: /etc/zabbix/zabbix_agentd.conf
+          owner: root
+          group: root
+          mode: "0644"
+
+      - name: Uruchomienie usługi zabbix-agent
+        service:
+          name: zabbix-agent
+          state: started
+          enabled: yes
+
+      - name: Otwieranie portów 
+        firewalld:
+          port: "{{ item }}/tcp"
+          permanent: yes
+          state: enabled
+          immediate: true
+        loop: "{{ open_ports }}"
+
+      - name: Przeładuj firewall
+        service:
+          name: firewalld
+          state: restarted
+
+
+

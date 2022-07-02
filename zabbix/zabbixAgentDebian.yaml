@@ -1,0 +1,75 @@
+  - name: Konfiguracja debiana  
+    block:
+      - name: pobieranie transport-https
+        apt:
+          name: apt-transport-https
+          state: present
+        when: >
+          ( ansible_distribution == "Debian" and 
+          ansible_distribution_version is version('10', '<') )
+
+      - name: pobieranie pakietu
+        get_url:
+          url: 
+            "https://repo.zabbix.com/zabbix/6.1/debian/pool/main/z/zabbix-release/\
+            zabbix-release_6.1-2%2Bdebian{{ ansible_distribution_major_version }}_all.deb"
+          dest: /home
+        
+      - name: Instalacja pakietu
+        apt: 
+          deb: "/home/zabbix-release_6.1-2%2Bdebian{{ ansible_distribution_major_version }}_all.deb"
+         
+      - name: apt-update
+        apt:
+          update_cache: true
+ 
+      - name: Instalacja zabbixa
+        apt:
+          name: zabbix-agent
+          state: present      
+        
+      - name: stop zabbix-agent
+        service:
+          name: zabbix-agent
+          state: stopped
+          enabled: yes
+              
+      - name: Aktualizacja zabbixa
+        apt:
+          name: zabbix-agent
+          state: latest
+        
+      - name: Pobranie konfiguracji
+        template:
+          src: zabbix.j2
+          dest: /etc/zabbix/zabbix_agentd.conf
+          owner: root
+          group: root
+          mode: "0644"
+              
+      - name: start zabbix-agent
+        service:
+          name: zabbix-agent
+          state: started
+          enabled: yes
+
+      - name: Instalacja ufw
+        apt:
+          name: ufw
+          state: latest    
+          
+      - name: Otwieranie portów dla debiana
+        ufw: 
+          rule: allow
+          port: "{{ item }}"
+          proto: tcp
+        loop: "{{ open_ports }}"
+   
+      - name: Defaultowa polityka
+        ufw:
+          state: enabled
+          policy: deny 
+
+      - name: UFW reloaded
+        ufw:
+          state: reloaded
