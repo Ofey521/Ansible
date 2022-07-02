@@ -1,6 +1,6 @@
-  - name: Konfiguracja debiana  
+  - name: ===Konfiguracja Debiana===  
     block:
-      - name: pobieranie transport-https
+      - name: Pobieranie pakietu transport-https
         apt:
           name: apt-transport-https
           state: present
@@ -8,7 +8,7 @@
           ( ansible_distribution == "Debian" and 
           ansible_distribution_version is version('10', '<') )
 
-      - name: pobieranie pakietu
+      - name: Pobieranie pakietu Zabbix
         get_url:
           url: 
             "https://repo.zabbix.com/zabbix/6.1/debian/pool/main/z/zabbix-release/\
@@ -47,7 +47,7 @@
           group: root
           mode: "0644"
               
-      - name: start zabbix-agent
+      - name: Start zabbix-agent
         service:
           name: zabbix-agent
           state: started
@@ -70,6 +70,6 @@
           state: enabled
           policy: deny 
 
-      - name: UFW reloaded
+      - name: Przeładowanie firewall 
         ufw:
           state: reloaded
