@@ -1,0 +1,33 @@
+---
+- name: "Chocolatey"
+  hosts: windows
+  
+  tasks:
+    - name: Instalacja Czekolady
+      win_chocolatey:
+        name: chocolatey
+        state: present
+        source: http://internal/odata/repo/ChocolateyInstall.ps1
+
+    - name: Instalacja spotify
+      win_chocolatey:
+        name:
+        - spotify 
+        state: present
+
+    - name: Instalacja .net 4.8-devpack
+      win_chocolatey:
+        name: netfx-4.8-devpack
+        version: '4.8.0.20190930'
+        state: present
+
+    - name: instalacja .net 5.0-sdk
+      win_chocolatey: 
+        name: dotnet-5.0-sdk       
+        state: present
+    
+    - name: Instalacja .net 4.5.2
+      win_chocolatey: 
+        name: dotnet4.5.2
+        state: present
+    
