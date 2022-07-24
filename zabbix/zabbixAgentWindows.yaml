@@ -1,0 +1,17 @@
+  - name: "Zabbix Agent Windows"
+    block:
+      - name: Instalacja Czekolady
+        win_chocolatey:
+          name: chocolatey
+          state: present
+
+      - name: Instalacja Zabbixa
+        win_chocolatey:
+          name: zabbix-agent.install
+          version: '6.0.6'
+          state: present
+
+      - name: Pobranie konfiguracji
+        win_template:
+          src: zabbix_win.j2
+          dest: C:\Program Files\Zabbix Agent\zabbix_agentd.conf

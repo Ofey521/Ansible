@@ -1,5 +1,5 @@
-[locals]
-local ansible_connection=local
+#[locals]
+#local ansible_connection=local
 
 [debian]
 s[01:02]
@@ -8,3 +8,12 @@ s04
 [redhat]
 s03 ansible_hosts=192.168.0.100
 s05 ansible_hosts=192.168.0.102
+
+[windows]
+192.168.0.170
+
+[windows:vars]
+ansible_user=***
+ansible_ssh_pass=***
+ansible_connection=ssh
+ansible_shell_type=cmd
