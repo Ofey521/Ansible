@@ -15,3 +15,21 @@
         win_template:
           src: zabbix_win.j2
           dest: C:\Program Files\Zabbix Agent\zabbix_agentd.conf
+
+      - name: Otwieranie portów zabbix
+        win_firewall_rule:
+          name: zabbix agent listen port
+          localport: 10051
+          action: allow
+          direction: in
+          protocol: tcp
+          state: present
+          enabled: yes
+      
+      - name: ICMP
+        win_firewall_rule: 
+          name: Port ICMP
+          protocol: ICMPv4
+          program: Any
+          action: allow
+          enabled: yes
