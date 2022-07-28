@@ -1,18 +1,11 @@
 ---
-- name: "Chocolatey"
+- name: "Instalacja infrastruktury dla serwera neos - WS"
   hosts: windows
   
   tasks:
-    - name: Instalacja Czekolady
+    - name: Instalacja chocolatey
       win_chocolatey:
         name: chocolatey
-        state: present
-        source: http://internal/odata/repo/ChocolateyInstall.ps1
-
-    - name: Instalacja spotify
-      win_chocolatey:
-        name:
-        - spotify 
         state: present
 
     - name: Instalacja .net 4.8-devpack
@@ -30,4 +23,20 @@
       win_chocolatey: 
         name: dotnet4.5.2
         state: present
-    
+   
+    - name: Otwieranie portów dla serwera neos
+      win_firewall_rule:
+        name: Neos Server
+        localport: 49152-65535
+        action: allow
+        direction: in
+        protocol: tcp
+        state: present
+        enabled: yes
+      
+    - name: Install firebird
+      win_chocolatey:
+        name: firebird
+        package_params: SuperClassic
+        version: '2.5.9'
+        state: present
