@@ -1,5 +1,6 @@
 ---
 - name: Instalacja agenta zabbix
+  gather_facts: yes
   hosts: all
 
   tasks:
