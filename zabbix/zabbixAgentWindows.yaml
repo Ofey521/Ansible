@@ -19,6 +19,7 @@
         win_template:
           src: zabbix_win.j2
           dest: C:\Program Files\Zabbix Agent\zabbix_agentd.conf
+        notify: restart zabbix-agent_windows
 
       - name: Otwieranie portów zabbix
         win_firewall_rule:
