@@ -12,7 +12,8 @@
       "https://repo.zabbix.com/zabbix/6.1/debian/pool/main/z/zabbix-release/\
       zabbix-release_6.1-2%2Bdebian{{ ansible_distribution_major_version }}_all.deb"
     dest: /home
-  
+    mode: 0755
+
 - name: Instalacja pakietu
   apt: 
     deb: "/home/zabbix-release_6.1-2%2Bdebian{{ ansible_distribution_major_version }}_all.deb"
