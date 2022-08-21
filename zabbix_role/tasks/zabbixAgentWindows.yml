@@ -1,67 +1,66 @@
-- name: "Zabbix Agent Windows"
-  - name: adresik
-    debug:
-      msg: "{{ ansible_interfaces[0].ipv4.address }}"
-  
-  - name: Instalacja Czekolady
-    win_chocolatey:
-      name: chocolatey
-      state: present
-  
-  - name: Instalacja Zabbixa
-    win_chocolatey:
-      name: zabbix-agent.install
-      version: '6.0.6'
-      state: present
+- name: adresik
+  debug:
+    msg: "{{ ansible_interfaces[0].ipv4.address }}"
 
-  - name: Pobranie konfiguracji
-    win_template:
-      src: zabbix_win.j2
-      dest: C:\Program Files\Zabbix Agent\zabbix_agentd.conf
-    notify: restart zabbix-agent_windows
+- name: Instalacja Czekolady
+  win_chocolatey:
+    name: chocolatey
+    state: present
+#dodać sprawdzanie wersji i aktualizacje, gdy jest starsza
+- name: Instalacja Zabbixa
+  win_chocolatey:
+    name: zabbix-agent.install
+    version: '{{ zabbixAgentWindows_version }}'
+    state: present
 
-  - name: Otwieranie portów zabbix
-    win_firewall_rule:
-      name: zabbix agent listen port
-      localport: 10051
-      action: allow
-      direction: in
-      protocol: tcp
-      state: present
-      enabled: yes
-  
-  - name: ICMP
-    win_firewall_rule: 
-      name: Port ICMP
-      protocol: ICMPv4
-      program: Any
-      action: allow
-      enabled: yes
+- name: Pobranie konfiguracji
+  win_template:
+    src: zabbix_win.j2
+    dest: C:\Program Files\Zabbix Agent\zabbix_agentd.conf
+  notify: restart zabbix-agent_windows
 
-  - name: Install python
-    win_chocolatey:
-      name: python
-      version: '3.10.5'
-      state: present
+- name: Otwieranie portów zabbix
+  win_firewall_rule:
+    name: zabbix agent listen port
+    localport: 10051
+    action: allow
+    direction: in
+    protocol: tcp
+    state: present
+    enabled: yes
 
-  - name: Create new host
-    local_action:
-      module: community.zabbix.zabbix_host
-      server_url: "http://192.168.0.10/zabbix"
-      login_user: ofey
-      login_password: ***
-      host_name: "{{ ansible_hostname }}"
-      visible_name: "{{ ansible_hostname }}"
-      host_groups: Zabbix servers
-      status: enabled
-      state: present
-      inventory_mode: manual
-      link_templates:
-        - Windows by Zabbix agent
-      interfaces:
-        - type: 1
-          main: 1
-          useip: 1
-          ip: "{{ ansible_interfaces[0].ipv4.address }}" 
-          dns: ""
-          port: "10051"
+- name: ICMP
+  win_firewall_rule: 
+    name: Port ICMP
+    protocol: ICMPv4
+    program: Any
+    action: allow
+    enabled: yes
+
+- name: Install python
+  win_chocolatey:
+    name: python
+    version: '3.10.5'
+    state: present
+
+- name: Create new host
+  local_action:
+    module: community.zabbix.zabbix_host
+    server_url: "http://192.168.0.10/zabbix"
+    login_user: ofey
+    login_password: ***
+    host_name: "{{ ansible_hostname }}"
+    visible_name: "{{ ansible_hostname }}"
+    host_groups: Zabbix servers
+    status: enabled
+    state: present
+    inventory_mode: manual
+    link_templates:
+      - Windows by Zabbix agent
+    interfaces:
+      - type: 1
+        main: 1
+        useip: 1
+        ip: "{{ ansible_interfaces[0].ipv4.address }}" 
+        dns: ""
+        port: "10051"

@@ -1,2 +1,29 @@
 ---
-# handlers file for zabbix_role
+- name: stop zabbix-agent
+  service:
+    name: zabbix-agent
+    state: stopped   
+
+- name: start zabbix-agent
+  service:
+    name: zabbix-agent
+    state: started
+
+- name: restart zabbix-agent
+  service:
+    name: zabbix-agent
+    state: restarted     
+
+- name: restart zabbix-agent_windows
+  win_service:
+    name: Zabbix Agent
+    state: restarted
+
+- name: przeladuj firewalla_debian
+  ufw:
+    state: reloaded
+
+- name: przeladuj firewalla_redhat
+  systemd:
+    name: firewalld
+    state: reloaded

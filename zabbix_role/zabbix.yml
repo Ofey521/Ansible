@@ -1,5 +1,6 @@
 ---
-- hosts: windows
-  remote_user: Administrator
+- name: Instalacja/aktualizacja ansible
+  hosts: all
+
   roles:
     - role: '/home/ofey/ansible_git/Ansible/zabbix_role' 
