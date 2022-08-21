@@ -1,0 +1,10 @@
+---
+# defaults file for zabbix_role
+#
+zabbixAgentRedHat_version: 6.2
+zabbixAgentRedHat_versionMinor: 6.2.0-1
+  
+zabbixAgentDebian_version: 6.2
+zabbixAgentDebian_versionMinor: 6.2-1
+
+zabbixAgentWindows_version: 6.0.6
