@@ -1,9 +1,19 @@
+- block:
+  - name: Sprawdź wersję 
+    win_file_version:
+      path: C:\\Program Files\\Zabbix Agent\\zabbix_agentd.exe
+    register: zabbix_version_check
+    
+  - name: Wyświetl wersję, jeśli jest zainstalowana
+    debug:
+      msg: "{{ zabbix_version_check['win_file_version']['product_version'] }}" 
+  ignore_errors: yes
+
 - name: Instalacja Chocolatey
   win_chocolatey:
     name: chocolatey
     state: present
 
-#dodać sprawdzanie wersji i aktualizacje, gdy jest starsza
 - name: Instalacja Zabbixa
   win_chocolatey:
     name: zabbix-agent.install
