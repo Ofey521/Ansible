@@ -9,11 +9,15 @@ s04
 s03 ansible_hosts=192.168.0.100
 s05 ansible_hosts=192.168.0.102
 
+[linux:children]
+debian
+redhat
+
 [windows]
 192.168.0.170
 
 [windows:vars]
-ansible_user=Administrator
-ansible_ssh_pass=***
+ansible_user="{{ windows_login_WS2k19 }}"
+ansible_ssh_pass="{{ windows_password_WS2k19 }}"
 ansible_connection=ssh
 ansible_shell_type=cmd

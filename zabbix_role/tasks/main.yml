@@ -1,5 +1,4 @@
 ---
-# tasks file for zabbix_role
 - include_tasks: zabbixAgentRedHat.yml
   when: ansible_facts['os_family'] == "RedHat"
 
