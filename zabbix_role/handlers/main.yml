@@ -19,6 +19,11 @@
     name: Zabbix Agent
     state: restarted
 
+- name: start zabbix-agent_windows
+  win_service:
+    name: Zabbix Agent
+    state: started
+
 - name: przeladuj firewalla_debian
   ufw:
     state: reloaded

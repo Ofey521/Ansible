@@ -2,12 +2,13 @@
   win_chocolatey:
     name: chocolatey
     state: present
+
 #dodać sprawdzanie wersji i aktualizacje, gdy jest starsza
 - name: Instalacja Zabbixa
   win_chocolatey:
     name: zabbix-agent.install
     version: '{{ zabbixAgentWindows_version }}'
-    state: present
+    state: upgrade
 
 - name: Pobranie konfiguracji
   win_template:
