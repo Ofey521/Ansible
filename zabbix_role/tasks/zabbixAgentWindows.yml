@@ -1,73 +1,85 @@
 - block:
-  - name: Sprawdź wersję 
+  - name: Sprawdź wersję i zapisz do zmiennej
     win_file_version:
       path: C:\\Program Files\\Zabbix Agent\\zabbix_agentd.exe
     register: zabbix_version_check
-    
-  - name: Wyświetl wersję, jeśli jest zainstalowana
+
+  - name: Wyświetl zainstalowaną wersję
     debug:
       msg: "{{ zabbix_version_check['win_file_version']['product_version'] }}" 
+
+  - name: Wyświetl wersję, jaką chcesz zainstalować
+    debug:
+      msg: "{{ zabbixAgentWindows_version }}" 
   ignore_errors: yes
 
-- name: Instalacja Chocolatey
-  win_chocolatey:
-    name: chocolatey
-    state: present
+- block:
+  - name: Porównanie wersji zainstalowanej oraz instalowanej
+    debug:
+      msg: "Chcesz zainstalować nizszą wersje niz aktualnie uzywasz, reszta kroktów będzie pominięta!"
+  when: zabbixAgentWindows_version < zabbix_version_check['win_file_version']['product_version'] 
 
-- name: Instalacja Zabbixa
-  win_chocolatey:
-    name: zabbix-agent.install
-    version: '{{ zabbixAgentWindows_version }}'
-    state: upgrade
+- block:
+  - name: Instalacja Chocolatey
+    win_chocolatey:
+      name: chocolatey
+      state: present
 
-- name: Pobranie konfiguracji
-  win_template:
-    src: zabbix_win.j2
-    dest: C:\Program Files\Zabbix Agent\zabbix_agentd.conf
-  notify: restart zabbix-agent_windows
+  - name: Instalacja Zabbixa
+    win_chocolatey:
+      name: zabbix-agent.install
+      version: '{{ zabbixAgentWindows_version }}'
+      state: upgrade
 
-- name: Otwieranie portów zabbix
-  win_firewall_rule:
-    name: zabbix agent listen port
-    localport: 10051
-    action: allow
-    direction: in
-    protocol: tcp
-    state: present
-    enabled: yes
+  - name: Pobranie konfiguracji
+    win_template:
+      src: zabbix_win.j2
+      dest: C:\Program Files\Zabbix Agent\zabbix_agentd.conf
+    notify: restart zabbix-agent_windows
 
-- name: ICMP
-  win_firewall_rule: 
-    name: Port ICMP
-    protocol: ICMPv4
-    program: Any
-    action: allow
-    enabled: yes
+  - name: Otwieranie portów zabbix
+    win_firewall_rule:
+      name: zabbix agent listen port
+      localport: 10051
+      action: allow
+      direction: in
+      protocol: tcp
+      state: present
+      enabled: yes
 
-- name: Install python
-  win_chocolatey:
-    name: python
-    version: '3.10.5'
-    state: present
+  - name: ICMP
+    win_firewall_rule: 
+      name: Port ICMP
+      protocol: ICMPv4
+      program: Any
+      action: allow
+      enabled: yes
 
-- name: Create new host
-  local_action:
-    module: community.zabbix.zabbix_host
-    server_url: "http://192.168.0.10/zabbix"
-    login_user: "{{ add_host_zabbix_login }}"
-    login_password: "{{ add_host_zabbix_password }}"
-    host_name: "{{ ansible_hostname }}"
-    visible_name: "{{ ansible_hostname }}"
-    host_groups: Zabbix servers
-    status: enabled
-    state: present
-    inventory_mode: manual
-    link_templates:
-      - Windows by Zabbix agent
-    interfaces:
-      - type: 1
-        main: 1
-        useip: 1
-        ip: "{{ ansible_interfaces[0].ipv4.address }}" 
-        dns: ""
-        port: "10051"
+  - name: Install python
+    win_chocolatey:
+      name: python
+      version: '3.10.5'
+      state: present
+
+  - name: Create new host
+    local_action:
+      module: community.zabbix.zabbix_host
+      server_url: "http://192.168.0.10/zabbix"
+      login_user: "{{ add_host_zabbix_login }}"
+      login_password: "{{ add_host_zabbix_password }}"
+      host_name: "{{ ansible_hostname }}"
+      visible_name: "{{ ansible_hostname }}"
+      host_groups: Zabbix servers
+      status: enabled
+      state: present
+      inventory_mode: manual
+      link_templates:
+        - Windows by Zabbix agent
+      interfaces:
+        - type: 1
+          main: 1
+          useip: 1
+          ip: "{{ ansible_interfaces[0].ipv4.address }}" 
+          dns: ""
+          port: "10051"
+  when: zabbixAgentWindows_version >= zabbix_version_check['win_file_version']['product_version']
