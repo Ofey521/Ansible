@@ -61,8 +61,8 @@
 - name: Create new host
   community.zabbix.zabbix_host:
     server_url: "http://192.168.0.10/zabbix"
-    login_user: ofey
-    login_password: *** 
+    login_user: "{{ add_host_zabbix_login }}"
+    login_password: "{{ add_host_zabbix_password }}"
     host_name: "{{ ansible_hostname }}"
     visible_name: "{{ ansible_hostname }}"
     host_groups: Zabbix servers
