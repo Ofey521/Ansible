@@ -1,0 +1,9 @@
+zabbixAgentDebian_version: 6.2
+zabbixAgentDebian_versionMinor: 6.2-1
+
+zabbix_daemon_path: /usr/sbin/
+zabbix_daemon: zabbix_agentd
+zabbix_service: zabbix_agentd
+zabbix_conf_path: /etc/zabbix/zabbix_agentd.conf
+
+python_interpreter: /usr/bin/python3

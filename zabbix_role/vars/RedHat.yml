@@ -1,0 +1,9 @@
+zabbixAgentRedHat_version: 6.2
+zabbixAgentRedHat_versionMinor: 6.2.0-1
+
+zabbix_daemon_path: /usr/sbin/
+zabbix_daemon: zabbix_agentd
+zabbix_service: zabbix-agent.service
+zabbix_conf_path: /etc/zabbix/zabbix_agentd.conf
+
+python_interpreter: /usr/bin/python3
