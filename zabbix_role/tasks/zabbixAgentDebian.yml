@@ -36,7 +36,7 @@
 - name: Pobranie konfiguracji
   template:
     src: zabbix.j2
-    dest: /etc/zabbix/zabbix_agentd.conf
+    dest: "{{ zabbix_conf_path }}"
     owner: root
     group: root
     mode: "0644"
@@ -76,18 +76,18 @@
   pip:
     name: requests
   vars:
-    ansible_python_interpreter: /usr/bin/python3
+    ansible_python_interpreter: "{{ python_interpreter }}"
 
 - name : install zabnbix-api
   vars:
-    ansible_python_interpreter: /usr/bin/python3
+    ansible_python_interpreter: "{{ python_interpreter }}"
   pip:
     name: zabbix-api
     state: present
 
 - name: Create new host
   vars:
-    ansible_python_interpreter: /usr/bin/python3
+    ansible_python_interpreter: "{{ python_interpreter }}"
   community.zabbix.zabbix_host:
     server_url: "http://192.168.0.10/zabbix"
     login_user: "{{ add_host_zabbix_login }}"
