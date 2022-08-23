@@ -1,7 +1,7 @@
 - block:
   - name: Sprawdź wersję i zapisz do zmiennej
     win_file_version:
-      path: C:\\Program Files\\Zabbix Agent\\zabbix_agentd.exe
+      path: "{{ zabbix_daemon_path_windows }}"
     register: zabbix_version_check
 
   - name: Wyświetl zainstalowaną wersję

@@ -1,3 +1,19 @@
+- block:
+  - name: Sprawdz wersje zabbixa
+    command: "{{ zabbix_daemon_path }}{{ zabbix_daemon }} -V"
+    changed_when: false
+    check_mode: false
+    register: wersja_zabbixa
+
+  - name: Create wersja_zabixa variable.
+    set_fact:
+      wersja_zabbixa: "{{ wersja_zabbixa.stdout.split()[3] }}"
+
+  - name: Wyświetl wersje
+    debug:
+        msg: "{{ wersja_zabbixa }}" 
+  ignore_errors: yes
+  
 - name: Aktualizacja pakietów
   yum:
     update_cache: yes
@@ -25,7 +41,7 @@
 - name: Pobranie konfiguracji .j2
   template:
     src: zabbix.j2
-    dest: /etc/zabbix/zabbix_agentd.conf
+    dest: "{{ zabbix_conf_path }}"
     owner: root
     group: root
     mode: "0644"
