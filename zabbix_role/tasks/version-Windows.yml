@@ -1,13 +1,26 @@
 ---
-- name: Sprawdź wersję i zapisz do zmiennej
-  win_file_version:
-    path: "{{ zabbix_daemon_path_windows }}"
-  register: zabbix_version_check
+- block:
+  - name: Sprawdź wersję i zapisz do zmiennej
+    win_file_version:
+      path: "{{ zabbix_daemon_path_windows }}"
+    register: zabbix_version_check
 
-- name: Wyświetl zainstalowaną wersję
-  debug:
-    msg: "{{ zabbix_version_check['win_file_version']['product_version'] }}" 
+  - name: Wyświetl zainstalowaną wersję
+    debug:
+      msg: "{{ zabbix_version_check.win_file_version.product_version }}"
 
-- name: Wyświetl wersję, jaką chcesz zainstalować
-  debug:
-    msg: "{{ zabbixAgentWindows_version }}"
+  - name: Wyświetl wersję, jaką chcesz zainstalować
+    debug:
+      msg: "{{ zabbixAgentWindows_version }}"
+
+  rescue: 
+    - name: Część rescue
+      debug:
+        msg: "Brak zainstalowanego zabbixa, przechodzę do instalacji"
+
+    - include_tasks: zabbixAgentWindows.yml
+
+    - name: Sprawdź wersję i zapisz do zmiennej
+      win_file_version:
+        path: "{{ zabbix_daemon_path_windows }}"
+      register: zabbix_version_check

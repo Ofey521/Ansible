@@ -1,23 +1,26 @@
-- block:
-  - name: Porównanie wersji zainstalowanej oraz instalowanej
-    debug:
-      msg: "Chcesz zainstalować nizszą wersje niz aktualnie uzywasz, reszta kroktów będzie pominięta!"
-  when: zabbixAgentWindows_version < zabbix_version_check['win_file_version']['product_version'] 
+- name: Instalacja Chocolatey
+  win_chocolatey:
+    name: chocolatey
+    state: present
 
-- block:
-  - name: Instalacja Chocolatey
-    win_chocolatey:
-      name: chocolatey
-      state: present
+- name: Instalacja Zabbixa
+  win_chocolatey:
+    name: zabbix-agent.install
+    version: '{{ zabbixAgentWindows_version }}'
+    state: upgrade
 
-  - name: Instalacja Zabbixa
-    win_chocolatey:
-      name: zabbix-agent.install
-      version: '{{ zabbixAgentWindows_version }}'
-      state: upgrade
+- name: Pobranie konfiguracji
+  win_template:
+    src: zabbix_win.j2
+    dest: "{{ zabbix_conf_path }}"
+  notify: restart zabbix-agent_windows
 
-  - name: Pobranie konfiguracji
-    win_template:
-      src: zabbix_win.j2
-      dest: "{{ zabbix_conf_path }}"
-    notify: restart zabbix-agent_windows
+- name: Install python
+  win_chocolatey:
+    name: python
+    version: '3.10.5'
+    state: present
+
+- name: Ustaw status instalacji na 1
+  set_fact:
+    install: '1'

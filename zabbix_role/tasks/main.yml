@@ -13,7 +13,7 @@
 - include_tasks: "version-{{ ansible_os_family }}.yml"
 
 - include_tasks: "configure-{{ ansible_os_family }}.yml"
-  when: zabbixAgentWindows_version >= zabbix_version_check['win_file_version']['product_version']
+  when: zabbixAgentWindows_version >= zabbix_version_check.win_file_version.product_version
 
 - include_tasks: zabbixAgentWindows.yml
-  when: ansible_facts['os_family'] == "Windows"
+  when: ansible_facts['os_family'] == "Windows" and install == '0'
