@@ -1,0 +1,13 @@
+---
+- name: Sprawdź wersję i zapisz do zmiennej
+  win_file_version:
+    path: "{{ zabbix_daemon_path_windows }}"
+  register: zabbix_version_check
+
+- name: Wyświetl zainstalowaną wersję
+  debug:
+    msg: "{{ zabbix_version_check['win_file_version']['product_version'] }}" 
+
+- name: Wyświetl wersję, jaką chcesz zainstalować
+  debug:
+    msg: "{{ zabbixAgentWindows_version }}"
