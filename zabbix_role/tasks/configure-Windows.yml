@@ -1,9 +1,4 @@
 ---
-- name: Instalacja Chocolatey
-  win_chocolatey:
-    name: chocolatey
-    state: present
-
 - name: Otwieranie portów zabbix
   win_firewall_rule:
     name: zabbix agent listen port
@@ -21,12 +16,6 @@
     program: Any
     action: allow
     enabled: yes
-
-- name: Install python
-  win_chocolatey:
-    name: python
-    version: '3.10.5'
-    state: present
 
 - name: Create new host
   local_action:
