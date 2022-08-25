@@ -1,0 +1,30 @@
+---
+- name: Otwieranie portów 
+  firewalld:
+    port: "{{ item }}/tcp"
+    permanent: yes
+    state: enabled
+    immediate: true
+  loop: "{{ open_ports }}"
+  notify: przeladuj firewalla_redhat
+
+- name: Create new host
+  community.zabbix.zabbix_host:
+    server_url: "http://192.168.0.10/zabbix"
+    login_user: "{{ add_host_zabbix_login }}"
+    login_password: "{{ add_host_zabbix_password }}"
+    host_name: "{{ ansible_hostname }}"
+    visible_name: "{{ ansible_hostname }}"
+    host_groups: Zabbix servers
+    status: enabled
+    state: present
+    inventory_mode: manual
+    link_templates:
+      - Linux by Zabbix agent
+    interfaces:
+      - type: 1
+        main: 1
+        useip: 1
+        ip: "{{ ansible_default_ipv4.address }}"
+        dns: ""
+        port: "10051"
