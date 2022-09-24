@@ -1,0 +1,17 @@
+- name: Aktualizacja
+  yum:
+    cacheonly: yes
+
+- name: Instalacja epel
+  dnf:
+    name: epel-release
+    state: present
+
+- name: Instalacja pakietów
+  dnf:
+    name: 
+      - git
+      - vim
+      - htop
+    state: present
+
