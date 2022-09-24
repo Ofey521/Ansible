@@ -1,5 +1,6 @@
-zabbixAgentRedHat_version: 6.2
-zabbixAgentRedHat_versionMinor: 6.2.0-1
+install_RedHat: '0'
+zabbixAgentRedHat_version: 5.4
+zabbixAgentRedHat_versionMinor: 5.4.0-8
 
 zabbix_daemon_path: /usr/sbin/
 zabbix_daemon: zabbix_agentd
