@@ -1,0 +1,12 @@
+[debian]
+s01
+s02
+s04
+
+[redhat]
+s03
+s05
+
+[linux:children]
+debian
+redhat

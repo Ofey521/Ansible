@@ -1,0 +1,12 @@
+- name: Aktualizacja pakietów
+  apt:
+    update_cache: true
+
+- name: Instalacja pakietów
+  apt:
+    name: 
+      - git
+      - vim
+      - htop
+    state: present
+    update_cache: yes
