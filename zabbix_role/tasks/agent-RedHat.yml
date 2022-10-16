@@ -24,6 +24,10 @@
       state: latest
     notify: start zabbix-agent
 
+  - name: Ustaw SELinux w tryb permissive
+    selinux:
+      state: disabled
+
   - name: Pobranie konfiguracji .j2
     template:
       src: zabbix.j2

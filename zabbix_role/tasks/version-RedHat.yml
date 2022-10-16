@@ -18,6 +18,10 @@
     debug:
       msg: "{{ zabbixAgentRedHat_versionMinor }}"
 
+  - name: Ustaw status instalacji na 1
+    set_fact:
+      install_RedHat: '1'
+
   rescue: 
     - name: Przechodzę do rescue
       debug:
