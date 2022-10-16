@@ -1,5 +1,5 @@
+install_Windows: '0'
 zabbixAgentWindows_version: 6.2.1
-install: '0'
 
 zabbix_daemon_path_windows: C:\\Program Files\\Zabbix Agent\\zabbix_agentd.exe
 zabbix_conf_path: C:\Program Files\Zabbix Agent\zabbix_agentd.conf

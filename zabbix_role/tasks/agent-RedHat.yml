@@ -1,0 +1,57 @@
+---
+- block:
+  - name: Aktualizacja pakietów
+    yum:
+      update_cache: yes
+
+  - name: Pobieranie pakietu Zabbix z repozytorium
+    yum:
+      name: https://repo.zabbix.com/zabbix/{{ zabbixAgentRedHat_version }}/rhel/{{ ansible_distribution_major_version }}/x86_64/zabbix-agent-{{ zabbixAgentRedHat_versionMinor }}.el{{ ansible_distribution_major_version }}.x86_64.rpm
+      state: present
+      disable_gpg_check: yes
+      validate_certs: no
+
+  - name: Sprawdz i pobierz aktualizacje dla zabbix-agenta
+    yum:
+      name: zabbix-agent
+      state: latest
+      download_only: yes
+    notify: stop zabbix-agent
+
+  - name: Zainstaluj aktualizacje dla zabbix-agenta
+    yum:
+      name: zabbix-agent
+      state: latest
+    notify: start zabbix-agent
+
+  - name: Pobranie konfiguracji .j2
+    template:
+      src: zabbix.j2
+      dest: "{{ zabbix_conf_path }}"
+      owner: root
+      group: root
+      mode: "0644"
+    notify: start zabbix-agent
+
+  - name: Instalacja python3-pip
+    dnf:
+      name: python3-pip
+      state: present
+
+  - name: Instalacja i aktualizacja pip3
+    pip:
+      name: pip
+      extra_args: --upgrade
+      executable: pip3
+
+  - name: Instalacja zabbix-api
+    vars:
+      ansible_python_interpreter: /usr/bin/python3
+    pip:
+      name: zabbix-api
+      state: present
+
+  - name: Ustaw status instalacji na 1
+    set_fact:
+      install_RedHat: '1'
+  become: yes

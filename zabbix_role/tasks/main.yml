@@ -1,19 +1,13 @@
 ---
-- name: Dodaj zmienne per środowisko
-  include_vars: "{{ ansible_os_family }}.yml" 
+- name: Dodaj zmienne dla środowiska
+  include_vars: "{{ ansible_os_family }}.yml"
 
-- include_tasks: zabbixAgentRedHat.yml
-  when: ansible_facts['os_family'] == "RedHat"
+- name: Sprawdzanie wersji dla środowiska
+  include_tasks: "version-{{ ansible_os_family }}.yml"
 
-- include_tasks: zabbixAgentDebian.yml
-  when: >
-    ( ansible_distribution == "Debian" and
-    ansible_distribution_version is version('8', '>') )
+- name: Instalacja lub aktualizacja
+  include_tasks: agent-{{ ansible_os_family }}.yml
+  when: install_{{ ansible_os_family }} == '0'
 
-- include_tasks: "version-{{ ansible_os_family }}.yml"
-
-- include_tasks: "configure-{{ ansible_os_family }}.yml"
-  when: zabbixAgentWindows_version >= zabbix_version_check.win_file_version.product_version
-
-- include_tasks: agent-{{ ansible_os_family }}.yml
-  when: install == '0'
+- name: Konfiguracja zabbix-agenta
+  include_tasks: "configure-{{ ansible_os_family }}.yml"
