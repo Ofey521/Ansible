@@ -1,0 +1,68 @@
+---
+- block:
+  - name: Pobieranie pakietu transport-https
+    apt:
+      name: apt-transport-https
+      state: present
+    when: >
+      ( ansible_distribution == "Debian" and
+      ansible_distribution_version is version('10', '<') )
+
+  - name: Pobieranie pakietu Zabbix z repozytorium
+    get_url:
+      url:
+        "https://repo.zabbix.com/zabbix/{{ zabbixAgentDebian_version }}/debian/pool/main/z/zabbix-release/\
+        zabbix-release_{{ zabbixAgentDebian_versionMinor }}+debian{{ ansible_distribution_major_version }}_all.deb"
+      dest: /home
+      mode: 0755
+
+  - name: Instalacja pakietu
+    apt:
+      deb: "/home/zabbix-release_{{ zabbixAgentDebian_versionMinor }}+debian{{ ansible_distribution_major_version }}_all.deb"
+    ignore_errors: yes
+
+  - name: Instalacja zabbixa
+    apt:
+      name: zabbix-agent
+      state: present
+    notify: stop zabbix-agent
+
+  - name: Aktualizacja zabbixa
+    apt:
+      name: zabbix-agent
+      state: latest
+
+  - name: Pobranie konfiguracji
+    template:
+      src: zabbix.j2
+      dest: "{{ zabbix_conf_path }}"
+      owner: root
+      group: root
+      mode: "0644"
+    notify: start zabbix-agent
+
+  - name: Flush handlers
+    meta: flush_handlers
+
+  - name: Instalacja python3-pip
+    apt:
+      name: python3-pip
+      state: present
+
+  - name: Ustaw python_interpreter
+    pip:
+      name: requests
+    vars:
+      ansible_python_interpreter: "{{ python_interpreter }}"
+
+  - name : Zainstaluj zabbix-api
+    vars:
+      ansible_python_interpreter: "{{ python_interpreter }}"
+    pip:
+      name: zabbix-api
+      state: present
+  
+  - name: Ustaw status instalacji na 1
+    set_fact:
+      install_Debian: '1'
+  become: yes

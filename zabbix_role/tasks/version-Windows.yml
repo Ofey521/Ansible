@@ -19,8 +19,3 @@
         msg: "Brak zainstalowanego zabbixa, przechodzę do instalacji"
 
     - include_tasks: agent-Windows.yml
-
-    - name: Sprawdź wersję i zapisz do zmiennej
-      win_file_version:
-        path: "{{ zabbix_daemon_path_windows }}"
-      register: zabbix_version_check

@@ -1,6 +1,9 @@
 #[locals]
 #local ansible_connection=local
 
+[test]
+s02
+
 [debian]
 s[01:02]
 s04
@@ -8,6 +11,7 @@ s04
 [redhat]
 s03 ansible_hosts=192.168.0.100
 s05 ansible_hosts=192.168.0.102
+zabserv
 
 [linux:children]
 debian

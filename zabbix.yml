@@ -2,7 +2,7 @@
 - name: Instalacja/aktualizacja ansible
   hosts: all
   vars_files:
-    - vault/main.yml
+    - zabbix_role/vault/main.yml
 
   roles:
-    - role: '/home/ofey/ansible_git/Ansible/zabbix_role' 
+    - role: 'zabbix_role' 

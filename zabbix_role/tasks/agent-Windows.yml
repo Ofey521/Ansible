@@ -23,4 +23,4 @@
 
 - name: Ustaw status instalacji na 1
   set_fact:
-    install: '1'
+    install_Windows: '1'

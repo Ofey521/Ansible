@@ -1,25 +1,8 @@
 ---
-- name: Otwieranie portów zabbix
-  win_firewall_rule:
-    name: zabbix agent listen port
-    localport: 10051
-    action: allow
-    direction: in
-    protocol: tcp
-    state: present
-    enabled: yes
-
-- name: ICMP
-  win_firewall_rule: 
-    name: Port ICMP
-    protocol: ICMPv4
-    program: Any
-    action: allow
-    enabled: yes
-
 - name: Dodaj host do monitoringu na http://192.168.0.10/zabbix
-  local_action:
-    module: community.zabbix.zabbix_host
+  vars:
+    ansible_python_interpreter: "{{ python_interpreter }}"
+  community.zabbix.zabbix_host:
     server_url: "http://192.168.0.10/zabbix"
     login_user: "{{ add_host_zabbix_login }}"
     login_password: "{{ add_host_zabbix_password }}"
@@ -30,11 +13,11 @@
     state: present
     inventory_mode: manual
     link_templates:
-      - Windows Templates
+      - Linux Templates
     interfaces:
       - type: 1
         main: 1
         useip: 1
-        ip: "{{ ansible_interfaces[0].ipv4.address }}" 
+        ip: "{{ ansible_default_ipv4.address }}"
         dns: ""
         port: "10051"
