@@ -3,6 +3,7 @@
 
 [test]
 s02
+s06
 
 [debian]
 s[01:02]

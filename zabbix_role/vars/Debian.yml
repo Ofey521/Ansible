@@ -1,6 +1,6 @@
 install_Debian: '0'
-zabbixAgentDebian_version: 6.2
-zabbixAgentDebian_versionMinor: 6.2-1
+zabbixAgentDebian_version: 6.3
+zabbixAgentDebian_versionMinor: 6.3-1
 
 zabbix_daemon_path: /usr/sbin/
 zabbix_daemon: zabbix_agentd
