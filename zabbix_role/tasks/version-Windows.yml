@@ -13,8 +13,12 @@
     debug:
       msg: "{{ zabbixAgentWindows_version }}"
 
+  - name: Ustaw status instalacji na 1
+    set_fact:
+      install_Windows: '1'
+
   rescue: 
-    - name: Część rescue
+    - name: Obsługa wyjątku
       debug:
         msg: "Brak zainstalowanego zabbixa, przechodzę do instalacji"
 

@@ -23,7 +23,7 @@
       install_RedHat: '1'
 
   rescue: 
-    - name: Przechodzę do rescue
+    - name: Obsługa wyjątku
       debug:
         msg: "Brak zainstalowanego zabbixa, przechodzę do instalacji"
 
