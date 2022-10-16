@@ -1,5 +1,6 @@
 ---
 - block:
+  #jakiś if jak nie ma wersji
   - name: Sprawdz wersje zabbixa
     command: "{{ zabbix_daemon_path }}{{ zabbix_daemon }} -V"
     changed_when: false
@@ -17,6 +18,10 @@
   - name: Wyświetl wersję, jaką chcesz zainstalować
     debug:
       msg: "{{ zabbixAgentDebian_versionMinor }}"
+      
+  - name: Ustaw status instalacji na 1
+    set_fact:
+      install_Debian: '1'
 
   rescue: 
     - name: Przechodzę do rescue

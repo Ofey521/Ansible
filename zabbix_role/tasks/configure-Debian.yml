@@ -8,7 +8,7 @@
     login_password: "{{ add_host_zabbix_password }}"
     host_name: "{{ ansible_hostname }}"
     visible_name: "{{ ansible_hostname }}"
-    host_groups: Sente
+    host_groups: Zabbix servers
     status: enabled
     state: present
     inventory_mode: manual

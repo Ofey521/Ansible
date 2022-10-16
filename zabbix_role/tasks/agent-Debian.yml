@@ -19,18 +19,17 @@
   - name: Instalacja pakietu
     apt:
       deb: "/home/zabbix-release_{{ zabbixAgentDebian_versionMinor }}+debian{{ ansible_distribution_major_version }}_all.deb"
-    ignore_errors: yes
+    #ignore_errors: yes
+
+  - name: Upgrade pakietów
+    apt:
+      upgrade: dist
 
   - name: Instalacja zabbixa
     apt:
       name: zabbix-agent
       state: present
     notify: stop zabbix-agent
-
-  - name: Aktualizacja zabbixa
-    apt:
-      name: zabbix-agent
-      state: latest
 
   - name: Pobranie konfiguracji
     template:
