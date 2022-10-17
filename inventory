@@ -18,10 +18,10 @@ debian
 redhat
 
 [windows]
-192.168.0.170
+192.168.0.99
 
 [windows:vars]
 ansible_user="{{ windows_login_WS2k19 }}"
-ansible_ssh_pass="{{ windows_password_WS2k19 }}"
+ansible_ssh_pass="{{ windows_password_WSclear }}"
 ansible_connection=ssh
 ansible_shell_type=cmd
