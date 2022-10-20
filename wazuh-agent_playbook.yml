@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  roles:
+    - wazuh-agent
+  vars:
+    wazuh_managers:
+      - address: 192.168.0.109
+        port: 1514
+        protocol: tcp
+        max_retries: 5
+        retry_interval: 5
+    wazuh_agent_authd:
+      registration_address: 192.168.0.109
+      enable: true
+      port: 1515
+      ssl_agent_ca: null
+      ssl_auto_negotiate: 'no'
