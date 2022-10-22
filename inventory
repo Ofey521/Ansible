@@ -2,7 +2,7 @@
 #local ansible_connection=local
 
 [test]
-s07
+s02
 
 [debian]
 s[01:02]
@@ -18,10 +18,10 @@ debian
 redhat
 
 [windows]
-192.168.0.99
+192.168.0.170
 
 [windows:vars]
 ansible_user="{{ windows_login_WS2k19 }}"
-ansible_ssh_pass="{{ windows_password_WSclear }}"
+ansible_ssh_pass="{{ windows_password_WS2k19 }}"
 ansible_connection=ssh
 ansible_shell_type=cmd
