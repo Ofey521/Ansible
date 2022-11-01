@@ -1,2 +1,3 @@
 ---
-# tasks file for environment
+  - include_tasks: "windows.yml"
+    when: ansible_os_family == "Windows"
