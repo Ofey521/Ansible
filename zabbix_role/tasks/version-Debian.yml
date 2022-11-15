@@ -1,6 +1,5 @@
 ---
 - block:
-  #jakiś if jak nie ma wersji
   - name: Sprawdz wersje zabbixa
     command: "{{ zabbix_daemon_path }}{{ zabbix_daemon }} -V"
     changed_when: false

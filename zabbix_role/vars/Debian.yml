@@ -7,4 +7,5 @@ zabbix_daemon: zabbix_agentd
 zabbix_service: zabbix_agentd
 zabbix_conf_path: /etc/zabbix/zabbix_agentd.conf
 
+dest_path: /home/dest
 python_interpreter: /usr/bin/python3
