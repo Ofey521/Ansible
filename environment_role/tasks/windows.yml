@@ -1,0 +1,38 @@
+---
+- name: Instalacja chocolatey
+  win_chocolatey:
+    name: chocolatey
+    state: present
+
+- name: Instalacja .net 4.8-devpack
+  win_chocolatey:
+    name: netfx-4.8-devpack
+    version: '4.8.0.20190930'
+    state: present
+
+- name: instalacja .net 5.0-sdk
+  win_chocolatey:
+    name: dotnet-5.0-sdk
+    state: present
+
+- name: Instalacja .net 4.5.2
+  win_chocolatey:
+    name: dotnet4.5.2
+    state: present
+
+- name: Otwieranie portów dla serwera neos
+  win_firewall_rule:
+    name: Neos Server
+    localport: 49152-65535
+    action: allow
+    direction: in
+    protocol: tcp
+    state: present
+    enabled: yes
+
+- name: Install firebird
+  win_chocolatey:
+    name: firebird
+    package_params: SuperClassic
+    version: '2.5.9'
+    state: present

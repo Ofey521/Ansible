@@ -21,3 +21,13 @@
         ip: "{{ ansible_default_ipv4.address }}"
         dns: ""
         port: "10051"
+
+- name: Przenieś pliki z files (konfiguracja?)
+  copy:
+    src: file1
+    dest: "{{ dest_path }}"
+
+- name: Przenieś pliki z files z folderu (konfiguracja?)
+  copy:
+    src: dict1
+    dest: "{{ dest_path }}"
