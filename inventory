@@ -2,7 +2,7 @@
 #local ansible_connection=local
 
 [test]
-s07
+s06
 [test:vars]
 ansible_user="{{ linux_user }}"
 ansible_become_pass='{{ linux_password }}'
