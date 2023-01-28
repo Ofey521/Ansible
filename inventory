@@ -3,6 +3,9 @@
 
 [test]
 s08
+[test:vars]
+ansible_ssh_user=jenkins
+ansible_become_pass='{{ jenkins_root }}'
 
 [debian]
 s[01:02]
