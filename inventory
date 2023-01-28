@@ -5,6 +5,8 @@
 s06
 s07
 s08
+poligon
+
 [test:vars]
 ansible_user="{{ linux_user }}"
 ansible_become_pass='{{ linux_password }}'

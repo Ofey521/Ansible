@@ -11,5 +11,6 @@
       - git
       - vim
       - htop
+      - curl
     state: present
     update_cache: yes
