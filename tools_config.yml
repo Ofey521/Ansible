@@ -1,10 +1,9 @@
 ---
-- hosts: all
-  become: yes
-  become_user: root
+- name: Instalacja podstawowych narzędzi
+  hosts: all
   vars_files:
     - vault/main.yml
 
   roles:
     - tools_config_linux
-  
+    
