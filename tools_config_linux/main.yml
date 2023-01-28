@@ -1,6 +1,0 @@
----
-- name: Instalacja & konfiguracja
-  hosts: all
-
-  roles:
-    - role: '/home/ofey/ansible_git/Ansible/tools_config_linux'
