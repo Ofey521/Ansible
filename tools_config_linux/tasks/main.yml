@@ -1,8 +1,3 @@
 ---
 - name: Instalacja narzędzi na dystrybucjach RedHat
-  include_tasks: tools_RedHat.yml
-  when: ansible_facts['os_family'] == "RedHat"
-
-- name: Instalacja narzędzi na dystrybucjach Debian
-  include_tasks: tools_Debian.yml
-  when: ansible_facts['os_family'] == "Debian"
+  include_tasks: tools_{{ ansible_os_family }}.yml
