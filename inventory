@@ -2,7 +2,7 @@
 #local ansible_connection=local
 
 [test]
-s02
+s08
 
 [debian]
 s[01:02]
