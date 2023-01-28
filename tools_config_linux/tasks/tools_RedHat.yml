@@ -1,14 +1,7 @@
-- name: check packages for updates
-  shell: yum list updates | awk 'f;/Updated Packages/{f=1;}' | awk '{ print $1 }'
-
 - name: Aktualizacja pakietów
   yum:
     name: '*'
     state: latest
-
-- name: install yum-utils
-  package:
-    name: yum-utils
 
 - name: Instalacja pakietów
   dnf:
@@ -16,4 +9,9 @@
       - git
       - vim
       - htop
+      - curl
     state: present
+
+- name: Remove dependencies that are no longer required
+  ansible.builtin.dnf:
+    autoremove: yes
