@@ -1,11 +1,14 @@
-- name: Aktualizacja
-  yum:
-    cacheonly: yes
+- name: check packages for updates
+  shell: yum list updates | awk 'f;/Updated Packages/{f=1;}' | awk '{ print $1 }'
 
-- name: Instalacja epel
-  dnf:
-    name: epel-release
-    state: present
+- name: Aktualizacja pakietów
+  yum:
+    name: '*'
+    state: latest
+
+- name: install yum-utils
+  package:
+    name: yum-utils
 
 - name: Instalacja pakietów
   dnf:
@@ -14,4 +17,3 @@
       - vim
       - htop
     state: present
-
