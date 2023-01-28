@@ -13,8 +13,7 @@
       - htop
       - curl
     state: present
-    update_cache: yes
-    
+
 - name: Remove useless packages from the cache
   ansible.builtin.apt:
     autoclean: yes
