@@ -4,7 +4,7 @@
 [test]
 s07
 [test:vars]
-ansible_user="{{ linux_login }}"
+ansible_user="{{ linux_user }}"
 ansible_become_pass='{{ linux_password }}'
 
 [debian]
