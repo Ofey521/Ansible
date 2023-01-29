@@ -2,7 +2,7 @@
 - name: Instalacja podstawowych narzędzi
   hosts: all
   become: yes
-  strategy: free
+  #strategy: free
   vars_files:
     - vault/main.yml
 
