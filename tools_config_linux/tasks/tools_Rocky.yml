@@ -1,27 +1,13 @@
-- name: check for updates (yum)
-  yum: list=updates update_cache=true
-  register: yumoutput
-
-- debug:
-    msg: "{{ yumoutput.results | map(attribute='name') | list }}"
-
-- name: check for updates (yum)
-  yum: list=updates update_cache=true
-  register: yumoutput
-  
-- debug:
-    msg: "{{ yumoutput.results | map(attribute='name') | list }}"
-
 - name: Aktualizacja pakietów
   yum:
     name: '*'
+    update_cache: yes
     state: latest
 
 - name: install epel-release
   dnf:
     name: epel-release
     state: present
-    update_cache: yes
 
 - name: Instalacja pakietów
   dnf:
@@ -31,7 +17,15 @@
       - htop
       - curl
     state: present
-    update_cache: yes
+
+- name: List updated packages
+  shell: rpm -qa --last | grep "$(date +%a\ %d\ %b\ %Y)" |cut -f 1 -d " "
+  register: result
+  args:
+    warn: no
+
+- name: Updates packages
+  debug: msg="{{ result.stdout_lines }}"
 
 - name: Remove dependencies that are no longer required
   ansible.builtin.dnf:

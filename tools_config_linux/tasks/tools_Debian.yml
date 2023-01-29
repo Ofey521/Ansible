@@ -3,7 +3,10 @@
   apt:
     upgrade: yes
     update_cache: yes
+    autoremove: yes
+    autoclean: yes
     cache_valid_time: 86400
+  register: result
     
 - name: Instalacja pakietów
   apt:
@@ -14,10 +17,9 @@
       - curl
     state: present
 
-- name: Remove useless packages from the cache
-  ansible.builtin.apt:
-    autoclean: yes
+- name: List installed and updated packages
+  shell: grep -E "^$(date +%Y-%m-%d).+ (install|upgrade) " /var/log/dpkg.log |cut -d " " -f 3-5
+  register: result
 
-- name: Remove dependencies that are no longer required
-  ansible.builtin.apt:
-    autoremove: yes
+- name: Show Output
+  debug: msg="{{ result.stdout_lines }}"
