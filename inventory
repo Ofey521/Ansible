@@ -2,9 +2,7 @@
 #local ansible_connection=local
 
 [test]
-s03
-4script
-zabserv
+rocky
 
 [test:vars]
 ansible_user="{{ linux_user }}"
