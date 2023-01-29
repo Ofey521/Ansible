@@ -2,11 +2,8 @@
 #local ansible_connection=local
 
 [test]
-s06
-s07
-s08
-poligon
-s04
+s03
+4script
 zabserv
 
 [test:vars]
