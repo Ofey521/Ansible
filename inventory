@@ -2,10 +2,10 @@
 #local ansible_connection=local
 
 [test]
-rocky
+poligon
 
 [test:vars]
-ansible_user="{{ linux_user }}"
+ansible_user="{{ linux_user_ansible }}"
 ansible_become_pass='{{ linux_password }}'
 
 [debian]
